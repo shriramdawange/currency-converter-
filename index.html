@@ -1,12 +1,93 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Currency Converter</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        .watermark {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            font-size: 0.85rem;
+            color: #555;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .watermark strong {
+            color: #667eea;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            color: #856404;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            max-width: 90%;
+            width: 500px;
+            text-align: center;
+            z-index: 1001;
+            animation: slideDown 0.5s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateX(-50%) translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateX(-50%) translateY(0);
+            }
+        }
+
+        .notification strong {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .watermark {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+                font-size: 0.75rem;
+                padding: 10px 15px;
+            }
+
+            .notification {
+                top: 10px;
+                width: calc(100% - 20px);
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
+
 <body>
+    <div class="notification">
+        <strong>⚠️ Experimental Project</strong>
+        This project is made by Dyanraj Rathod for experimental purpose only.
+    </div>
+
     <div class="container">
         <h1>💱 Currency Converter</h1>
         <div class="converter-box">
@@ -20,9 +101,9 @@
                     <label for="fromCurrency">From</label>
                     <select id="fromCurrency"></select>
                 </div>
-                
+
                 <button class="swap-btn" id="swapBtn">⇄</button>
-                
+
                 <div class="currency-box">
                     <label for="toCurrency">To</label>
                     <select id="toCurrency"></select>
@@ -44,6 +125,12 @@
         </div>
     </div>
 
+    <div class="watermark">
+        <strong>Made by Dyanraj Rathod</strong>
+        Experimental Purpose
+    </div>
+
     <script src="script.js"></script>
 </body>
+
 </html>
