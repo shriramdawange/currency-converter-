@@ -4,133 +4,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Currency Converter</title>
+    <title>Global Currency Dashboard</title>
+    <link href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
-    <style>
-        .watermark {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 15px 20px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            font-size: 0.85rem;
-            color: #555;
-            text-align: center;
-            z-index: 1000;
-        }
-
-        .watermark strong {
-            color: #667eea;
-            display: block;
-            margin-bottom: 5px;
-        }
-
-        .notification {
-            position: fixed;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: #fff3cd;
-            border: 2px solid #ffc107;
-            color: #856404;
-            padding: 15px 25px;
-            border-radius: 10px;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
-            max-width: 90%;
-            width: 500px;
-            text-align: center;
-            z-index: 1001;
-            animation: slideDown 0.5s ease-out;
-        }
-
-        @keyframes slideDown {
-            from {
-                opacity: 0;
-                transform: translateX(-50%) translateY(-20px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(-50%) translateY(0);
-            }
-        }
-
-        .notification strong {
-            display: block;
-            margin-bottom: 5px;
-            font-size: 1.1rem;
-        }
-
-        @media (max-width: 768px) {
-            .watermark {
-                bottom: 10px;
-                right: 10px;
-                left: 10px;
-                font-size: 0.75rem;
-                padding: 10px 15px;
-            }
-
-            .notification {
-                top: 10px;
-                width: calc(100% - 20px);
-                padding: 12px 20px;
-                font-size: 0.9rem;
-            }
-        }
-    </style>
 </head>
 
 <body>
-    <div class="notification">
-        <strong>⚠️ Experimental Project</strong>
-        This project is made by Dyanraj Rathod for experimental purpose only.
+    
+    <div class="notification" id="notification">
+        <div class="notif-content">
+            <i class="ri-flask-line"></i>
+            <div>
+                <strong>Experimental Build</strong>
+                <span>Project developed by Dyanraj Rathod</span>
+            </div>
+        </div>
+        <button onclick="document.getElementById('notification').style.display='none'"><i class="ri-close-line"></i></button>
     </div>
 
-    <div class="container">
-        <h1>💱 Currency Converter</h1>
-        <div class="converter-box">
-            <div class="input-group">
-                <label for="amount">Amount</label>
-                <input type="number" id="amount" value="1" min="0" step="0.01">
+    <div class="main-wrapper">
+        <header>
+            <div class="logo">
+                <div class="logo-icon"><i class="ri-exchange-dollar-line"></i></div>
+                <h1>Currency<span class="highlight">Dash</span></h1>
             </div>
+            <button id="themeToggle" class="theme-btn">
+                <i class="ri-moon-line" id="themeIcon"></i>
+            </button>
+        </header>
 
-            <div class="currency-group">
-                <div class="currency-box">
-                    <label for="fromCurrency">From</label>
-                    <select id="fromCurrency"></select>
+        <div class="dashboard-grid">
+            
+            <div class="card converter-card">
+                <div class="card-header">
+                    <h2><i class="ri-calculator-line"></i> Converter</h2>
+                    <span class="live-badge">● Live API</span>
                 </div>
 
-                <button class="swap-btn" id="swapBtn">⇄</button>
+                <div class="converter-body">
+                    <div class="input-section">
+                        <label>Amount</label>
+                        <div class="amount-wrapper">
+                            <span class="symbol" id="amountSymbol">$</span>
+                            <input type="number" id="amount" value="1" min="0" placeholder="0.00">
+                        </div>
+                    </div>
 
-                <div class="currency-box">
-                    <label for="toCurrency">To</label>
-                    <select id="toCurrency"></select>
+                    <div class="currency-row">
+                        <div class="select-box">
+                            <label>From</label>
+                            <div class="custom-select-wrapper">
+                                <img src="https://flagcdn.com/w40/us.png" id="fromFlag" alt="Flag">
+                                <select id="fromCurrency"></select>
+                            </div>
+                        </div>
+
+                        <button class="swap-btn" id="swapBtn">
+                            <i class="ri-arrow-left-right-line"></i>
+                        </button>
+
+                        <div class="select-box">
+                            <label>To</label>
+                            <div class="custom-select-wrapper">
+                                <img src="https://flagcdn.com/w40/in.png" id="toFlag" alt="Flag">
+                                <select id="toCurrency"></select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="result-display">
+                        <p class="sub-result" id="conversionRate">1 USD = 83.50 INR</p>
+                        <h1 id="finalResult">0.00</h1>
+                        <p class="currency-name" id="targetName">Indian Rupee</p>
+                    </div>
+
+                    <button class="convert-btn" id="convertBtn">
+                        Convert Now <i class="ri-arrow-right-line"></i>
+                    </button>
                 </div>
             </div>
 
-            <button class="convert-btn" id="convertBtn">Convert</button>
+            <div class="card market-card">
+                <div class="card-header">
+                    <h2><i class="ri-stock-line"></i> Market Rates</h2>
+                    <p class="subtitle">Base: <span id="baseCurrencyDisplay">USD</span></p>
+                </div>
+                
+                <div class="rates-list" id="popularRates">
+                    <div class="loader">Loading market data...</div>
+                </div>
 
-            <div class="result" id="result">
-                <p class="result-text">Enter amount and select currencies</p>
+                <div class="update-info">
+                    <i class="ri-time-line"></i>
+                    <span id="lastUpdate">Updating...</span>
+                </div>
             </div>
-
-            <div class="rate-info" id="rateInfo"></div>
-        </div>
-
-        <div class="info-section">
-            <h3>📊 Exchange Rate Information</h3>
-            <p id="lastUpdate">Loading exchange rates...</p>
         </div>
     </div>
 
     <div class="watermark">
-        <strong>Made by Dyanraj Rathod</strong>
-        Experimental Purpose
+        <div class="wm-content">
+            <span>Designed by</span>
+            <strong>Dyanraj Rathod</strong>
+        </div>
     </div>
 
     <script src="script.js"></script>
 </body>
-
 </html>
