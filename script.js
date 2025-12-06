@@ -1,153 +1,286 @@
-// Currency data with common currencies
+// Extensive list of all world currencies
 const currencies = {
-    'USD': 'US Dollar',
+    'USD': 'United States Dollar',
     'EUR': 'Euro',
-    'GBP': 'British Pound',
+    'GBP': 'British Pound Sterling',
     'JPY': 'Japanese Yen',
     'AUD': 'Australian Dollar',
     'CAD': 'Canadian Dollar',
     'CHF': 'Swiss Franc',
     'CNY': 'Chinese Yuan',
-    'INR': 'Indian Rupee',
-    'MXN': 'Mexican Peso',
-    'BRL': 'Brazilian Real',
-    'ZAR': 'South African Rand',
-    'RUB': 'Russian Ruble',
+    'HKD': 'Hong Kong Dollar',
+    'NZD': 'New Zealand Dollar',
+    'SEK': 'Swedish Krona',
     'KRW': 'South Korean Won',
     'SGD': 'Singapore Dollar',
-    'HKD': 'Hong Kong Dollar',
     'NOK': 'Norwegian Krone',
-    'SEK': 'Swedish Krona',
-    'DKK': 'Danish Krone',
-    'NZD': 'New Zealand Dollar',
+    'MXN': 'Mexican Peso',
+    'INR': 'Indian Rupee',
+    'RUB': 'Russian Ruble',
+    'ZAR': 'South African Rand',
     'TRY': 'Turkish Lira',
-    'AED': 'UAE Dirham',
-    'SAR': 'Saudi Riyal',
+    'BRL': 'Brazilian Real',
+    'TWD': 'New Taiwan Dollar',
+    'DKK': 'Danish Krone',
+    'PLN': 'Polish Zloty',
     'THB': 'Thai Baht',
-    'PLN': 'Polish Zloty'
+    'IDR': 'Indonesian Rupiah',
+    'HUF': 'Hungarian Forint',
+    'CZK': 'Czech Koruna',
+    'ILS': 'Israeli New Shekel',
+    'CLP': 'Chilean Peso',
+    'PHP': 'Philippine Peso',
+    'AED': 'UAE Dirham',
+    'COP': 'Colombian Peso',
+    'SAR': 'Saudi Riyal',
+    'MYR': 'Malaysian Ringgit',
+    'RON': 'Romanian Leu',
+    'AFN': 'Afghan Afghani',
+    'ALL': 'Albanian Lek',
+    'DZD': 'Algerian Dinar',
+    'ARS': 'Argentine Peso',
+    'AMD': 'Armenian Dram',
+    'AZN': 'Azerbaijani Manat',
+    'BHD': 'Bahraini Dinar',
+    'BDT': 'Bangladeshi Taka',
+    'BBD': 'Barbadian Dollar',
+    'BYN': 'Belarusian Ruble',
+    'BOB': 'Bolivian Boliviano',
+    'BAM': 'Bosnia-Herzegovina Mark',
+    'BGN': 'Bulgarian Lev',
+    'KHR': 'Cambodian Riel',
+    'CRC': 'Costa Rican Colón',
+    'HRK': 'Croatian Kuna',
+    'CUP': 'Cuban Peso',
+    'DOP': 'Dominican Peso',
+    'EGP': 'Egyptian Pound',
+    'GEL': 'Georgian Lari',
+    'GHS': 'Ghanaian Cedi',
+    'GTQ': 'Guatemalan Quetzal',
+    'HNL': 'Honduran Lempira',
+    'ISK': 'Icelandic Króna',
+    'IQD': 'Iraqi Dinar',
+    'JMD': 'Jamaican Dollar',
+    'JOD': 'Jordanian Dinar',
+    'KZT': 'Kazakhstani Tenge',
+    'KES': 'Kenyan Shilling',
+    'KWD': 'Kuwaiti Dinar',
+    'LBP': 'Lebanese Pound',
+    'LKR': 'Sri Lankan Rupee',
+    'MAD': 'Moroccan Dirham',
+    'MDL': 'Moldovan Leu',
+    'MMK': 'Burmese Kyat',
+    'NAD': 'Namibian Dollar',
+    'NPR': 'Nepalese Rupee',
+    'NGN': 'Nigerian Naira',
+    'OMR': 'Omani Rial',
+    'PKR': 'Pakistani Rupee',
+    'PAB': 'Panamanian Balboa',
+    'PYG': 'Paraguayan Guarani',
+    'PEN': 'Peruvian Sol',
+    'QAR': 'Qatari Riyal',
+    'RSD': 'Serbian Dinar',
+    'SOS': 'Somali Shilling',
+    'TJS': 'Tajikistani Somoni',
+    'TZS': 'Tanzanian Shilling',
+    'TND': 'Tunisian Dinar',
+    'UGX': 'Ugandan Shilling',
+    'UAH': 'Ukrainian Hryvnia',
+    'UYU': 'Uruguayan Peso',
+    'UZS': 'Uzbekistani Som',
+    'VEF': 'Venezuelan Bolívar',
+    'VND': 'Vietnamese Dong',
+    'YER': 'Yemeni Rial',
+    'ZMW': 'Zambian Kwacha'
 };
 
 let exchangeRates = {};
 
-// DOM elements
+// DOM Elements
 const amountInput = document.getElementById('amount');
-const fromCurrency = document.getElementById('fromCurrency');
-const toCurrency = document.getElementById('toCurrency');
-const convertBtn = document.getElementById('convertBtn');
-const swapBtn = document.getElementById('swapBtn');
-const result = document.getElementById('result');
-const rateInfo = document.getElementById('rateInfo');
+const fromSelect = document.getElementById('fromCurrency');
+const toSelect = document.getElementById('toCurrency');
+const resultDisplay = document.getElementById('finalResult');
+const subResult = document.getElementById('conversionRate');
+const targetNameDisplay = document.getElementById('targetName');
 const lastUpdate = document.getElementById('lastUpdate');
+const popularRatesList = document.getElementById('popularRates');
+const themeToggle = document.getElementById('themeToggle');
+const themeIcon = document.getElementById('themeIcon');
+const fromFlag = document.getElementById('fromFlag');
+const toFlag = document.getElementById('toFlag');
 
-// Populate currency dropdowns
-function populateCurrencies() {
-    const sortedCurrencies = Object.keys(currencies).sort();
-    
-    sortedCurrencies.forEach(code => {
-        const option1 = document.createElement('option');
-        option1.value = code;
-        option1.textContent = `${code} - ${currencies[code]}`;
-        fromCurrency.appendChild(option1);
-        
-        const option2 = document.createElement('option');
-        option2.value = code;
-        option2.textContent = `${code} - ${currencies[code]}`;
-        toCurrency.appendChild(option2);
-    });
-    
-    // Set default values
-    fromCurrency.value = 'USD';
-    toCurrency.value = 'EUR';
+// --- Initialization ---
+function init() {
+    populateDropdowns();
+    fetchRates();
+    loadTheme();
 }
 
-// Fetch exchange rates from API
-async function fetchExchangeRates() {
+// --- Populate Dropdowns ---
+function populateDropdowns() {
+    const codes = Object.keys(currencies).sort();
+    
+    codes.forEach(code => {
+        const optionFrom = new Option(`${code} - ${currencies[code]}`, code);
+        const optionTo = new Option(`${code} - ${currencies[code]}`, code);
+        
+        fromSelect.add(optionFrom);
+        toSelect.add(optionTo);
+    });
+
+    // Defaults
+    fromSelect.value = 'USD';
+    toSelect.value = 'INR';
+    
+    updateFlags();
+}
+
+// --- Flag Handling ---
+// Helper to map currency code to country code for FlagCDN
+function getCountryCode(currencyCode) {
+    // Handle special cases
+    const special = {
+        'USD': 'us', 'EUR': 'eu', 'GBP': 'gb', 'INR': 'in', 
+        'AUD': 'au', 'JPY': 'jp', 'CNY': 'cn', 'BTC': 'bt'
+    };
+    if (special[currencyCode]) return special[currencyCode];
+    return currencyCode.slice(0, 2).toLowerCase();
+}
+
+function updateFlags() {
+    const fromCode = fromSelect.value;
+    const toCode = toSelect.value;
+    
+    fromFlag.src = `https://flagcdn.com/w40/${getCountryCode(fromCode)}.png`;
+    toFlag.src = `https://flagcdn.com/w40/${getCountryCode(toCode)}.png`;
+}
+
+// --- API Fetching ---
+async function fetchRates() {
+    // Show loading state
+    resultDisplay.style.opacity = '0.5';
+    
     try {
         const response = await fetch('https://api.exchangerate-api.com/v4/latest/USD');
         const data = await response.json();
+        
         exchangeRates = data.rates;
         
         const date = new Date(data.date);
-        lastUpdate.textContent = `Last updated: ${date.toLocaleDateString()} ${date.toLocaleTimeString()}`;
+        lastUpdate.textContent = `Updated: ${date.toLocaleTimeString()}`;
         
-        return true;
+        calculateResult();
+        updateMarketDashboard();
+        
+        resultDisplay.style.opacity = '1';
     } catch (error) {
-        console.error('Error fetching exchange rates:', error);
-        lastUpdate.textContent = 'Error loading exchange rates. Please try again later.';
-        return false;
+        alert("Error fetching rates. Check internet connection.");
+        console.error(error);
     }
 }
 
-// Convert currency
-function convertCurrency() {
+// --- Calculation Logic ---
+function calculateResult() {
     const amount = parseFloat(amountInput.value);
-    const from = fromCurrency.value;
-    const to = toCurrency.value;
+    const from = fromSelect.value;
+    const to = toSelect.value;
     
-    if (isNaN(amount) || amount <= 0) {
-        result.innerHTML = '<p class="result-text" style="color: #e74c3c;">Please enter a valid amount</p>';
+    if (isNaN(amount)) {
+        resultDisplay.innerText = "0.00";
         return;
     }
-    
-    if (!exchangeRates[from] || !exchangeRates[to]) {
-        result.innerHTML = '<p class="result-text" style="color: #e74c3c;">Exchange rate not available</p>';
-        return;
-    }
-    
-    // Convert to USD first, then to target currency
-    const amountInUSD = amount / exchangeRates[from];
-    const convertedAmount = amountInUSD * exchangeRates[to];
-    
-    // Calculate exchange rate
+
+    // Rate Calculation: (USD to Target) / (USD to Base)
     const rate = exchangeRates[to] / exchangeRates[from];
-    
-    result.innerHTML = `
-        <p class="result-text" style="color: #27ae60;">
-            ${amount.toFixed(2)} ${from} = ${convertedAmount.toFixed(2)} ${to}
-        </p>
-    `;
-    
-    rateInfo.innerHTML = `
-        <strong>Exchange Rate:</strong> 1 ${from} = ${rate.toFixed(4)} ${to}<br>
-        <strong>Inverse Rate:</strong> 1 ${to} = ${(1/rate).toFixed(4)} ${from}
-    `;
+    const finalAmount = amount * rate;
+
+    // Formatting numbers with commas
+    resultDisplay.innerText = finalAmount.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+
+    subResult.innerText = `1 ${from} = ${rate.toFixed(4)} ${to}`;
+    targetNameDisplay.innerText = currencies[to] || to;
 }
 
-// Swap currencies
-function swapCurrencies() {
-    const temp = fromCurrency.value;
-    fromCurrency.value = toCurrency.value;
-    toCurrency.value = temp;
+// --- Market Dashboard Logic ---
+function updateMarketDashboard() {
+    // Display major currencies relative to the SELECTED "From" currency
+    const base = fromSelect.value;
+    const baseRateInUSD = exchangeRates[base];
     
-    if (amountInput.value && parseFloat(amountInput.value) > 0) {
-        convertCurrency();
+    const popularList = ['USD', 'EUR', 'GBP', 'JPY', 'INR', 'AUD'];
+    popularRatesList.innerHTML = ''; // Clear old
+
+    document.getElementById('baseCurrencyDisplay').innerText = base;
+
+    popularList.forEach(curr => {
+        if (curr === base) return; // Don't show self
+
+        const targetRateInUSD = exchangeRates[curr];
+        const crossRate = targetRateInUSD / baseRateInUSD;
+
+        const item = document.createElement('div');
+        item.className = 'rate-item';
+        item.innerHTML = `
+            <div class="curr-info">
+                <img src="https://flagcdn.com/w40/${getCountryCode(curr)}.png" alt="">
+                <span>${curr}</span>
+            </div>
+            <span class="rate-val">${crossRate.toFixed(4)}</span>
+        `;
+        popularRatesList.appendChild(item);
+    });
+}
+
+// --- Event Listeners ---
+fromSelect.addEventListener('change', () => {
+    updateFlags();
+    calculateResult();
+    updateMarketDashboard();
+});
+
+toSelect.addEventListener('change', () => {
+    updateFlags();
+    calculateResult();
+});
+
+amountInput.addEventListener('input', calculateResult);
+
+document.getElementById('swapBtn').addEventListener('click', () => {
+    const temp = fromSelect.value;
+    fromSelect.value = toSelect.value;
+    toSelect.value = temp;
+    updateFlags();
+    calculateResult();
+    updateMarketDashboard();
+});
+
+document.getElementById('convertBtn').addEventListener('click', calculateResult);
+
+// --- Theme Toggle ---
+themeToggle.addEventListener('click', () => {
+    const isDark = document.body.getAttribute('data-theme') === 'dark';
+    if (isDark) {
+        document.body.removeAttribute('data-theme');
+        themeIcon.classList.replace('ri-sun-line', 'ri-moon-line');
+        localStorage.setItem('theme', 'light');
+    } else {
+        document.body.setAttribute('data-theme', 'dark');
+        themeIcon.classList.replace('ri-moon-line', 'ri-sun-line');
+        localStorage.setItem('theme', 'dark');
+    }
+});
+
+function loadTheme() {
+    const saved = localStorage.getItem('theme');
+    if (saved === 'dark') {
+        document.body.setAttribute('data-theme', 'dark');
+        themeIcon.classList.replace('ri-moon-line', 'ri-sun-line');
     }
 }
 
-// Event listeners
-convertBtn.addEventListener('click', convertCurrency);
-swapBtn.addEventListener('click', swapCurrencies);
-
-// Convert on Enter key
-amountInput.addEventListener('keypress', (e) => {
-    if (e.key === 'Enter') {
-        convertCurrency();
-    }
-});
-
-// Auto-convert when currency changes
-fromCurrency.addEventListener('change', () => {
-    if (amountInput.value && parseFloat(amountInput.value) > 0) {
-        convertCurrency();
-    }
-});
-
-toCurrency.addEventListener('change', () => {
-    if (amountInput.value && parseFloat(amountInput.value) > 0) {
-        convertCurrency();
-    }
-});
-
-// Initialize
-populateCurrencies();
-fetchExchangeRates();
+// Start app
+init();
